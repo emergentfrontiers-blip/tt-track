@@ -246,7 +246,7 @@ function colorForSide(side, count) {
   if (count === 0) {
     return side === 'opp' ? 'hsl(355, 40%, 20%)' : 'hsl(212, 40%, 18%)';
   }
-  return hsl(${hue}, ${saturation}%, ${lightness}%);
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 }
 
 function render(side) {
@@ -264,7 +264,7 @@ function render(side) {
       div.className = 'zone';
       div.style.background = colorForSide(side, count);
       div.style.color = count > 0 && count <= 7 ? '#1c1d21' : '#f2f2f0';
-      div.innerHTML = <span class="zone-pct">${pct}%</span><span class="zone-count">${count} shots</span>;
+      div.innerHTML = `<span class="zone-pct">${pct}%</span><span class="zone-count">${count} shots</span>`;
       div.addEventListener('click', () => {
         data[side][i]++;
         render(side);
@@ -337,7 +337,7 @@ document.getElementById('loadListBtn').addEventListener('click', () => {
       const record = JSON.parse(localStorage.getItem(key));
       const row = document.createElement('div');
       row.className = 'saved-item';
-      row.innerHTML = <span>${record.name}</span>;
+      row.innerHTML = `<span>${record.name}</span>`;
       const btnGroup = document.createElement('span');
       const loadBtn = document.createElement('button');
       loadBtn.textContent = 'Load';
