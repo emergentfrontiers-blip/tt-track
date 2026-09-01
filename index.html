@@ -50,6 +50,7 @@
   }
   button:active { transform: scale(0.98); }
   .primary { background: #d81e2c; color: #fff; border-color: #d81e2c; }
+  .share-btn { background: #1e6fd8; color: #fff; border-color: #1e6fd8; }
   .clear-btn { font-size: 12px; padding: 4px 10px; color: #ff8a8a; border-color: #5c3232; background: #2f2020; }
   .section-title { font-size: 14px; font-weight: 600; margin: 4px 0 10px; display: flex; align-items: center; justify-content: space-between; color: #f2f2f0; }
 
@@ -67,6 +68,7 @@
     margin: -6px auto 14px;
     width: fit-content;
   }
+  .banner.shared { border-color: #1e6fd8; }
 
   .perspective-wrap {
     perspective: 1100px;
@@ -157,13 +159,19 @@
   .saved-item:last-child { border-bottom: none; }
   .saved-item button { padding: 4px 10px; font-size: 12px; }
   .status { font-size: 12px; color: #9a9a96; text-align: center; margin-top: 8px; min-height: 16px; }
+  .share-box { display: none; margin-top: 10px; }
+  .share-box textarea {
+    width: 100%; min-height: 60px; font-size: 12px; padding: 8px;
+    border: 1px solid #46474d; border-radius: 8px; background: #1c1d21; color: #f2f2f0;
+    resize: vertical;
+  }
 </style>
 </head>
 <body>
 <div class="page">
 
 <h1>Zone tracker</h1>
-<div class="sub">Tap a zone each time a shot lands there. Percentages update live. Saved sessions stay on this device/browser only.</div>
+<div class="sub">Tap a zone each time a shot lands there. Percentages update live. Saved sessions stay on this device/browser only — use Share link to send a snapshot to someone else.</div>
 
 <div class="card">
   <label for="oppName">Opponent name</label>
@@ -173,6 +181,12 @@
   <div class="row">
     <button id="saveBtn" class="primary">Save session</button>
     <button id="loadListBtn">Load saved</button>
+  </div>
+  <div class="row" style="margin-top:8px;">
+    <button id="shareBtn" class="share-btn">Share link</button>
+  </div>
+  <div class="share-box" id="shareBox">
+    <textarea id="shareLinkText" readonly></textarea>
   </div>
   <div class="status" id="status"></div>
 </div>
@@ -232,7 +246,7 @@ function colorForSide(side, count) {
   if (count === 0) {
     return side === 'opp' ? 'hsl(355, 40%, 20%)' : 'hsl(212, 40%, 18%)';
   }
-  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+  return hsl(${hue}, ${saturation}%, ${lightness}%);
 }
 
 function render(side) {
@@ -250,7 +264,7 @@ function render(side) {
       div.className = 'zone';
       div.style.background = colorForSide(side, count);
       div.style.color = count > 0 && count <= 7 ? '#1c1d21' : '#f2f2f0';
-      div.innerHTML = `<span class="zone-pct">${pct}%</span><span class="zone-count">${count} shots</span>`;
+      div.innerHTML = <span class="zone-pct">${pct}%</span><span class="zone-count">${count} shots</span>;
       div.addEventListener('click', () => {
         data[side][i]++;
         render(side);
@@ -323,7 +337,7 @@ document.getElementById('loadListBtn').addEventListener('click', () => {
       const record = JSON.parse(localStorage.getItem(key));
       const row = document.createElement('div');
       row.className = 'saved-item';
-      row.innerHTML = `<span>${record.name}</span>`;
+      row.innerHTML = <span>${record.name}</span>;
       const btnGroup = document.createElement('span');
       const loadBtn = document.createElement('button');
       loadBtn.textContent = 'Load';
@@ -359,6 +373,63 @@ document.getElementById('closeLoad').addEventListener('click', () => {
   document.getElementById('loadCard').style.display = 'none';
 });
 
+// ---- Share link feature ----
+// Packs the current session (names + zone data) into a base64 string in the URL
+// so anyone who opens the link sees this exact snapshot, no localStorage needed.
+
+function encodeSession(record) {
+  const json = JSON.stringify(record);
+  return encodeURIComponent(btoa(unescape(encodeURIComponent(json))));
+}
+
+function decodeSession(str) {
+  const json = decodeURIComponent(escape(atob(decodeURIComponent(str))));
+  return JSON.parse(json);
+}
+
+document.getElementById('shareBtn').addEventListener('click', () => {
+  const oppName = document.getElementById('oppNameInput').value.trim() || 'Opponent';
+  const ownName = document.getElementById('ownNameInput').value.trim() || 'You';
+  const record = { name: oppName, ownName, data };
+  const encoded = encodeSession(record);
+  const url = location.origin + location.pathname + '?share=' + encoded;
+
+  const box = document.getElementById('shareBox');
+  const textArea = document.getElementById('shareLinkText');
+  textArea.value = url;
+  box.style.display = 'block';
+  textArea.select();
+
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => {
+      showStatus('Share link copied to clipboard');
+    }).catch(() => {
+      showStatus('Link ready below — copy it manually');
+    });
+  } else {
+    showStatus('Link ready below — copy it manually');
+  }
+});
+
+function loadFromUrlIfPresent() {
+  const params = new URLSearchParams(location.search);
+  const shared = params.get('share');
+  if (!shared) return false;
+  try {
+    const record = decodeSession(shared);
+    data = record.data;
+    document.getElementById('oppNameInput').value = record.name;
+    document.getElementById('ownNameInput').value = record.ownName || 'You';
+    const banner = document.getElementById('banner');
+    banner.textContent = 'Shared session — ' + record.name + ' vs ' + (record.ownName || 'You');
+    banner.classList.add('shared');
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+const loadedShared = loadFromUrlIfPresent();
 updateNameTags();
 render('opp');
 render('own');
