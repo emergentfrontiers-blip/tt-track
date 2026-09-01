@@ -8,17 +8,14 @@
   * { box-sizing: border-box; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #f4f3ee;
+    background: #1c1d21;
     margin: 0;
     padding: 16px;
-    color: #2c2c2a;
+    color: #f2f2f0;
   }
-  .page {
-    max-width: 640px;
-    margin: 0 auto;
-  }
-  h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
-  .sub { font-size: 13px; color: #6b6a63; margin-bottom: 16px; }
+  .page { max-width: 640px; margin: 0 auto; }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; color: #f2f2f0; }
+  .sub { font-size: 13px; color: #9a9a96; margin-bottom: 16px; }
 
   @media (min-width: 700px) {
     body { padding: 32px 16px; }
@@ -27,61 +24,92 @@
     .card { padding: 22px; }
     label, input, button { font-size: 16px; }
     .section-title { font-size: 17px; }
-    .side-labels { font-size: 14px; }
-    .zone { font-size: 13px; line-height: 1.5; }
-    .zone .pct { font-size: 12px; }
-    .totals { font-size: 14px; }
+    .zone-pct { font-size: 24px !important; }
+    .zone-count { font-size: 12px !important; }
+    .name-bar { font-size: 16px !important; padding: 10px 16px !important; }
+    .banner { font-size: 16px !important; padding: 10px 24px !important; }
   }
   .card {
-    background: #ffffff;
-    border: 1px solid #e2e0d8;
+    background: #26272c;
+    border: 1px solid #35363c;
     border-radius: 12px;
     padding: 14px;
     margin-bottom: 16px;
   }
-  label { font-size: 13px; font-weight: 500; display: block; margin-bottom: 4px; }
-  input { width: 100%; padding: 8px 10px; font-size: 15px; border: 1px solid #d3d1c7; border-radius: 8px; margin-bottom: 10px; background: #fbfaf6; }
+  label { font-size: 13px; font-weight: 500; display: block; margin-bottom: 4px; color: #cfcfcb; }
+  input {
+    width: 100%; padding: 8px 10px; font-size: 15px;
+    border: 1px solid #46474d; border-radius: 8px; margin-bottom: 10px;
+    background: #1c1d21; color: #f2f2f0;
+  }
   .row { display: flex; gap: 8px; }
   .row > * { flex: 1; }
-  button { padding: 10px 14px; font-size: 14px; font-weight: 500; border-radius: 8px; border: 1px solid #d3d1c7; background: #fff; cursor: pointer; }
+  button {
+    padding: 10px 14px; font-size: 14px; font-weight: 500; border-radius: 8px;
+    border: 1px solid #46474d; background: #2f3035; color: #f2f2f0; cursor: pointer;
+  }
   button:active { transform: scale(0.98); }
-  .primary { background: #2c2c2a; color: #fff; border-color: #2c2c2a; }
-  .clear-btn { font-size: 12px; padding: 4px 10px; color: #a32d2d; border-color: #f0c1c1; }
-  .section-title { font-size: 14px; font-weight: 600; margin: 4px 0 10px; display: flex; align-items: center; justify-content: space-between; }
-  .side-labels { display: flex; justify-content: space-between; font-size: 12px; color: #6b6a63; margin-bottom: 6px; padding: 0 2px; }
+  .primary { background: #d81e2c; color: #fff; border-color: #d81e2c; }
+  .clear-btn { font-size: 12px; padding: 4px 10px; color: #ff8a8a; border-color: #5c3232; background: #2f2020; }
+  .section-title { font-size: 14px; font-weight: 600; margin: 4px 0 10px; display: flex; align-items: center; justify-content: space-between; color: #f2f2f0; }
 
+  .banner {
+    text-align: center;
+    background: #17181b;
+    border: 1px solid #d81e2c;
+    color: #f2f2f0;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 13px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    margin: -6px auto 14px;
+    width: fit-content;
+  }
+
+  .perspective-wrap {
+    perspective: 1100px;
+    padding: 10px 0 46px;
+  }
   .table-wrap {
     position: relative;
     width: 100%;
     aspect-ratio: 274 / 152.5;
-    background: #14588a;
-    border: 3px solid #ffffff;
-    border-radius: 4px;
+    background: #0e0f11;
+    border: 2px solid #ffffff;
+    border-radius: 6px;
     overflow: hidden;
+    transform: rotateX(48deg);
+    transform-origin: 50% 100%;
+    box-shadow: 0 30px 40px -10px rgba(0,0,0,0.7);
   }
+  .table-legs {
+    position: relative;
+    height: 0;
+  }
+  .table-legs::before, .table-legs::after {
+    content: '';
+    position: absolute;
+    top: -30px;
+    width: 10px;
+    height: 34px;
+    background: linear-gradient(#3a3b40, #1c1d21);
+    border-radius: 0 0 2px 2px;
+  }
+  .table-legs::before { left: 12%; }
+  .table-legs::after { right: 12%; }
   .center-line {
-    position: absolute;
-    top: 0; bottom: 0; left: 50%;
-    width: 3px;
-    background: #ffffff;
-    transform: translateX(-50%);
-    z-index: 3;
-  }
-  .doubles-line {
-    position: absolute;
-    left: 0; right: 0; top: 50%;
-    height: 1px;
-    background: rgba(255,255,255,0.4);
-    transform: translateY(-50%);
-    z-index: 2;
+    position: absolute; top: 0; bottom: 0; left: 50%;
+    width: 3px; background: #ffffff; transform: translateX(-50%); z-index: 3;
   }
   .zone-grid {
-    position: absolute;
-    top: 0; bottom: 0;
-    width: 50%;
+    position: absolute; top: 0; bottom: 0; width: 50%;
     display: grid;
     grid-template-rows: repeat(3, 1fr);
     grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    padding: 2px;
     z-index: 1;
   }
   .zone-grid.left { left: 0; }
@@ -91,35 +119,57 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
-    font-weight: 600;
-    color: #ffffff;
     cursor: pointer;
     user-select: none;
-    border: 0.5px solid rgba(255,255,255,0.25);
+    border-radius: 3px;
     transition: background 0.15s;
-    text-align: center;
-    line-height: 1.3;
   }
-  .zone .pct { font-size: 9px; font-weight: 400; opacity: 0.85; margin-top: 2px; }
+  .zone-pct { font-size: 18px; font-weight: 700; line-height: 1; }
+  .zone-count { font-size: 10px; opacity: 0.75; margin-top: 3px; }
   .zone:active { transform: scale(0.96); }
-  .totals { font-size: 12px; color: #6b6a63; margin-top: 8px; text-align: center; }
+
+  .name-bars { display: flex; justify-content: space-between; gap: 8px; margin-top: 10px; }
+  .name-bar {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    background: #0e0f11;
+  }
+  .name-bar.opp { border-left: 4px solid #d81e2c; justify-content: flex-start; }
+  .name-bar.own { border-right: 4px solid #1e6fd8; justify-content: flex-end; text-align: right; flex-direction: row-reverse; }
+  .name-swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .name-swatch.opp { background: #d81e2c; }
+  .name-swatch.own { background: #1e6fd8; }
+  .name-bar input {
+    margin: 0; padding: 4px 6px; font-size: 13px; border: none;
+    background: transparent; color: #f2f2f0; width: 100%;
+  }
+  .name-bar.own input { text-align: right; }
+
+  .totals { font-size: 12px; color: #9a9a96; margin-top: 10px; text-align: center; }
   .saved-list { font-size: 13px; }
-  .saved-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; }
+  .saved-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #35363c; }
   .saved-item:last-child { border-bottom: none; }
   .saved-item button { padding: 4px 10px; font-size: 12px; }
-  .status { font-size: 12px; color: #6b6a63; text-align: center; margin-top: 8px; min-height: 16px; }
+  .status { font-size: 12px; color: #9a9a96; text-align: center; margin-top: 8px; min-height: 16px; }
 </style>
 </head>
 <body>
 <div class="page">
 
 <h1>Zone tracker</h1>
-<div class="sub">Tap a zone each time a shot lands there. Table shown to scale, net in the middle. 9 zones per side.</div>
+<div class="sub">Tap a zone each time a shot lands there. Percentages update live. Saved sessions stay on this device/browser only.</div>
 
 <div class="card">
   <label for="oppName">Opponent name</label>
-  <input id="oppName" placeholder="e.g. Freddie Tan" />
+  <input id="oppNameInput" placeholder="e.g. Freddie Tan" />
+  <label for="ownNameInput">Your name</label>
+  <input id="ownNameInput" placeholder="e.g. You" value="You" />
   <div class="row">
     <button id="saveBtn" class="primary">Save session</button>
     <button id="loadListBtn">Load saved</button>
@@ -140,38 +190,49 @@
       <button class="clear-btn" data-clear="own">Clear mine</button>
     </span>
   </div>
-  <div class="side-labels">
-    <span>Opponent's side (your shots)</span>
-    <span>Your side (their shots)</span>
-  </div>
+  <div class="banner" id="banner">Winners — live session</div>
   <div class="table-wrap">
-    <div class="doubles-line"></div>
     <div class="zone-grid left" id="grid-opp"></div>
     <div class="zone-grid right" id="grid-own"></div>
     <div class="center-line"></div>
+  </div>
+  <div class="name-bars">
+    <div class="name-bar opp">
+      <span class="name-swatch opp"></span>
+      <input id="oppNameTag" readonly />
+    </div>
+    <div class="name-bar own">
+      <input id="ownNameTag" readonly />
+      <span class="name-swatch own"></span>
+    </div>
   </div>
   <div class="totals" id="totals">0 / 0 shots logged</div>
 </div>
 
 <script>
-// Each side: 3 rows (Wide L, Middle, Wide R) x 3 cols (depth: Short/Mid/Long) = 9 zones
-// Left half (opponent's side): net is at the right edge (center), baseline is at the left edge
-//   -> columns left-to-right (baseline to net): [Long, Mid, Short]
-// Right half (your side): net is at the left edge (center), baseline is at the right edge
-//   -> columns left-to-right (net to baseline): [Short, Mid, Long]
 const rowLabels = ['Wide L', 'Middle', 'Wide R'];
 
 let data = {
-  opp: [0,0,0,0,0,0,0,0,0], // index: row*3+col
+  opp: [0,0,0,0,0,0,0,0,0],
   own: [0,0,0,0,0,0,0,0,0]
 };
 
-function colorFor(count, max) {
-  if (count === 0) return 'rgba(255,255,255,0.06)';
-  const ratio = max > 0 ? count / max : 0;
-  const stops = ['rgba(93,202,165,0.35)','rgba(29,158,117,0.55)','rgba(15,110,86,0.7)','rgba(8,80,65,0.85)','rgba(4,52,44,0.95)'];
-  const idx = Math.min(stops.length - 1, Math.floor(ratio * (stops.length - 1)));
-  return stops[idx];
+function colorForSide(side, count) {
+  const totalStops = 14;
+  const idx = Math.min(totalStops - 1, Math.max(0, count - 1));
+  const baseHue = side === 'opp' ? 355 : 212;
+  const lightStart = 88;
+  const lightEnd = 14;
+  const lightness = lightStart - (idx / (totalStops - 1)) * (lightStart - lightEnd);
+  const satStart = 45;
+  const satEnd = 85;
+  const saturation = satStart + (idx / (totalStops - 1)) * (satEnd - satStart);
+  const hueShift = (idx / (totalStops - 1)) * (side === 'opp' ? -12 : 12);
+  const hue = baseHue + hueShift;
+  if (count === 0) {
+    return side === 'opp' ? 'hsl(355, 40%, 20%)' : 'hsl(212, 40%, 18%)';
+  }
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 }
 
 function render(side) {
@@ -179,8 +240,6 @@ function render(side) {
   grid.innerHTML = '';
   const arr = data[side];
   const total = arr.reduce((a,b) => a+b, 0);
-  const max = Math.max(...arr);
-  const colLabels = side === 'opp' ? ['Long', 'Mid', 'Short'] : ['Short', 'Mid', 'Long'];
 
   for (let row = 0; row < 3; row++) {
     for (let col = 0; col < 3; col++) {
@@ -189,8 +248,9 @@ function render(side) {
       const pct = total > 0 ? Math.round((count/total)*100) : 0;
       const div = document.createElement('div');
       div.className = 'zone';
-      div.style.background = colorFor(count, max);
-      div.innerHTML = `<span>${rowLabels[row]}<br>${colLabels[col]}</span><span class="pct">${count} (${pct}%)</span>`;
+      div.style.background = colorForSide(side, count);
+      div.style.color = count > 0 && count <= 7 ? '#1c1d21' : '#f2f2f0';
+      div.innerHTML = `<span class="zone-pct">${pct}%</span><span class="zone-count">${count} shots</span>`;
       div.addEventListener('click', () => {
         data[side][i]++;
         render(side);
@@ -207,6 +267,16 @@ function updateTotals() {
   document.getElementById('totals').textContent = oppTotal + ' opp. / ' + ownTotal + ' mine logged';
 }
 
+function updateNameTags() {
+  const oppName = document.getElementById('oppNameInput').value.trim() || 'Opponent';
+  const ownName = document.getElementById('ownNameInput').value.trim() || 'You';
+  document.getElementById('oppNameTag').value = oppName.toUpperCase();
+  document.getElementById('ownNameTag').value = ownName.toUpperCase();
+}
+
+document.getElementById('oppNameInput').addEventListener('input', updateNameTags);
+document.getElementById('ownNameInput').addEventListener('input', updateNameTags);
+
 document.querySelectorAll('[data-clear]').forEach(btn => {
   btn.addEventListener('click', () => {
     const side = btn.getAttribute('data-clear');
@@ -222,69 +292,74 @@ function showStatus(msg) {
   setTimeout(() => { el.textContent = ''; }, 2500);
 }
 
-document.getElementById('saveBtn').addEventListener('click', async () => {
-  const name = document.getElementById('oppName').value.trim();
+document.getElementById('saveBtn').addEventListener('click', () => {
+  const name = document.getElementById('oppNameInput').value.trim();
   if (!name) {
     showStatus('Enter an opponent name first');
     return;
   }
   try {
-    const record = { name, data, savedAt: new Date().toISOString() };
-    const result = await window.storage.set('session:' + name, JSON.stringify(record));
-    if (result) {
-      showStatus('Saved: ' + name);
-    } else {
-      showStatus('Save failed, try again');
-    }
+    const ownName = document.getElementById('ownNameInput').value.trim() || 'You';
+    const record = { name, ownName, data, savedAt: new Date().toISOString() };
+    localStorage.setItem('tt_session:' + name, JSON.stringify(record));
+    showStatus('Saved: ' + name);
   } catch (e) {
     showStatus('Save failed, try again');
   }
 });
 
-document.getElementById('loadListBtn').addEventListener('click', async () => {
+document.getElementById('loadListBtn').addEventListener('click', () => {
   const card = document.getElementById('loadCard');
   card.style.display = 'block';
   const listEl = document.getElementById('savedList');
-  listEl.innerHTML = 'Loading...';
-  try {
-    const result = await window.storage.list('session:');
-    const keys = result && result.keys ? result.keys : [];
-    if (keys.length === 0) {
-      listEl.innerHTML = '<div style="color:#6b6a63;">No saved sessions yet.</div>';
-      return;
-    }
-    listEl.innerHTML = '';
-    for (const key of keys) {
-      try {
-        const item = await window.storage.get(key);
-        const record = JSON.parse(item.value);
-        const row = document.createElement('div');
-        row.className = 'saved-item';
-        row.innerHTML = `<span>${record.name}</span>`;
-        const loadBtn = document.createElement('button');
-        loadBtn.textContent = 'Load';
-        loadBtn.addEventListener('click', () => {
-          data = record.data;
-          document.getElementById('oppName').value = record.name;
-          render('opp');
-          render('own');
-          updateTotals();
-          card.style.display = 'none';
-          showStatus('Loaded: ' + record.name);
-        });
-        row.appendChild(loadBtn);
-        listEl.appendChild(row);
-      } catch (e) {}
-    }
-  } catch (e) {
-    listEl.innerHTML = '<div style="color:#a32d2d;">Could not load sessions.</div>';
+  const keys = Object.keys(localStorage).filter(k => k.startsWith('tt_session:'));
+  if (keys.length === 0) {
+    listEl.innerHTML = '<div style="color:#9a9a96;">No saved sessions yet.</div>';
+    return;
   }
+  listEl.innerHTML = '';
+  keys.forEach(key => {
+    try {
+      const record = JSON.parse(localStorage.getItem(key));
+      const row = document.createElement('div');
+      row.className = 'saved-item';
+      row.innerHTML = `<span>${record.name}</span>`;
+      const btnGroup = document.createElement('span');
+      const loadBtn = document.createElement('button');
+      loadBtn.textContent = 'Load';
+      loadBtn.style.marginRight = '6px';
+      loadBtn.addEventListener('click', () => {
+        data = record.data;
+        document.getElementById('oppNameInput').value = record.name;
+        document.getElementById('ownNameInput').value = record.ownName || 'You';
+        updateNameTags();
+        render('opp');
+        render('own');
+        updateTotals();
+        card.style.display = 'none';
+        showStatus('Loaded: ' + record.name);
+      });
+      const delBtn = document.createElement('button');
+      delBtn.textContent = 'Delete';
+      delBtn.className = 'clear-btn';
+      delBtn.addEventListener('click', () => {
+        localStorage.removeItem(key);
+        row.remove();
+        showStatus('Deleted: ' + record.name);
+      });
+      btnGroup.appendChild(loadBtn);
+      btnGroup.appendChild(delBtn);
+      row.appendChild(btnGroup);
+      listEl.appendChild(row);
+    } catch (e) {}
+  });
 });
 
 document.getElementById('closeLoad').addEventListener('click', () => {
   document.getElementById('loadCard').style.display = 'none';
 });
 
+updateNameTags();
 render('opp');
 render('own');
 updateTotals();
